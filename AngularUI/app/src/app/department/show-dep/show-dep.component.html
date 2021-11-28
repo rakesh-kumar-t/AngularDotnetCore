@@ -25,8 +25,18 @@ data-backdrop="static" data-keyboard="false">
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Department Id</th>
-            <th>Department Name</th>
+            <th>
+                <div class="d-flex flex-row">
+                    <input [(ngModel)]="DepartmentIdFilter" class="form-control"
+                    (keyup)="FilterFn()" placeholder="Filter">
+                </div>
+                Department Id</th>
+            <th>
+                <div class="d-flex flex-row">
+                    <input [(ngModel)]="DepartmentNameFilter" class="form-control"
+                    (keyup)="FilterFn()" placeholder="Filter">
+                </div>
+                Department Name</th>
             <th>Options</th>
         </tr>
     </thead>

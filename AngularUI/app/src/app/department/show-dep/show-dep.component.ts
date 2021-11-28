@@ -15,6 +15,11 @@ export class ShowDepComponent implements OnInit {
   ModalTitle:string;
   ActivateAddEditDepComp:boolean=false;
   dep:any;
+
+  DepartmentIdFilter:string="";
+  DepartmentNameFilter:string="";
+  DepartmentListWithoutFilter:any=[];
+
   ngOnInit(): void {
     this.refreshDepList();
   }
@@ -51,7 +56,22 @@ export class ShowDepComponent implements OnInit {
   refreshDepList(){
     this.service.getDepList().subscribe(data=>{
       this.DepartmentList=data;
+      this.DepartmentListWithoutFilter=data;
     })
+  }
+
+  FilterFn(){
+    var DepartmentIdFilter=this.DepartmentIdFilter;
+    var DepartmentNameFilter=this.DepartmentNameFilter;
+
+    this.DepartmentList=this.DepartmentListWithoutFilter.filter(function(el:any){
+      return el.DepartmentId.toString().toLowerCase().includes(
+        DepartmentIdFilter.toString().trim().toLowerCase()
+      )&&
+      el.DepartmentName.toString().toLowerCase().includes(
+        DepartmentNameFilter.toString().trim().toLowerCase()
+      )
+    });
   }
 
 }
