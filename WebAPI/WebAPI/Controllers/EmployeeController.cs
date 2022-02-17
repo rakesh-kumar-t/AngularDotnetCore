@@ -10,6 +10,7 @@ using System.Data;
 using WebAPI.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers
 {
@@ -17,119 +18,70 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private CompanyDBContext companyDB=new CompanyDBContext();
         private readonly IWebHostEnvironment _env;
 
-        public EmployeeController(IConfiguration configuration ,IWebHostEnvironment env)
+        public EmployeeController(IWebHostEnvironment env)
         {
-            _configuration = configuration;
             _env = env;
         }
 
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"
-                            select EmployeeId,EmployeeName, Department, convert(varchar(10),DateOfJoining,120) as DateOfJoining, PhotoFileName
-                            from dbo.Employee";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
+            var employees = companyDB.Employees.ToList();
 
-            return new JsonResult(table);
-
+            return new JsonResult(employees);
         }
 
         [HttpPost]
         public JsonResult Post(Employee emp)
         {
-            string query = @"
-                            insert into dbo.Employee(EmployeeName,Department,DateOfJoining,PhotoFileName)
-                            values(
-                            '" + emp.EmployeeName + @"',
-                            '" + emp.Department + @"',
-                            '" + emp.DateOfJoining + @"',
-                            '" + emp.PhotoFileName + @"'
-                            )";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            if (ModelState.IsValid)
             {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                companyDB.Employees.Add(emp);
+                var result = companyDB.SaveChanges();
+                if (result > 0)
                 {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
+                    return new JsonResult("Added Successfully");
                 }
-            }
 
-            return new JsonResult("Added Successfully");
+            }
+            return new JsonResult("Something went wrong, Please try again");
         }
 
         [HttpPut]
         public JsonResult Put(Employee emp)
         {
-            string query = @"
-                            update dbo.Employee set 
-                            EmployeeName='" + emp.EmployeeName + @"',
-                            Department='" + emp.Department + @"',
-                            DateOfJoining='" + emp.DateOfJoining + @"',
-                            PhotoFileName='" + emp.PhotoFileName + @"'
-                            where EmployeeId='" + emp.EmployeeId + @"'
-                            ";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            if (ModelState.IsValid)
             {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                companyDB.Entry(emp).State = EntityState.Modified;
+                var result = companyDB.SaveChanges();
+                if (result > 0)
                 {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
+                    return new JsonResult("Updated Successfully");
                 }
             }
-
-            return new JsonResult("Updated Successfully");
+            return new JsonResult("Something went wrong, Please try again");
         }
 
         [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
+        public JsonResult Delete(int? id)
         {
-            string query = @"
-                            delete from dbo.Employee where EmployeeId =" + id + @"";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            if (id != null)
             {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                var employee = companyDB.Employees.Find(id);
+                if (employee != null)
                 {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
+                    companyDB.Employees.Remove(employee);
+                    var result = companyDB.SaveChanges();
+                    if (result > 0)
+                    {
+                        return new JsonResult("Deleted Successfully");
+                    }
                 }
             }
-
-            return new JsonResult("Deleted Successfully");
+            return new JsonResult("Something went wrong, Please try again");
         }
 
         [Route("SaveFile")]
@@ -157,28 +109,28 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("GetAllDepartmentNames")]
-        public JsonResult GetAllDepartmentNames()
-        {
-            string query = @"
-                            select DepartmentName from dbo.Department";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
+        //[Route("GetAllDepartmentNames")]
+        //public JsonResult GetAllDepartmentNames()
+        //{
+        //    string query = @"
+        //                    select DepartmentName from dbo.Department";
+        //    DataTable table = new DataTable();
+        //    string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
+        //    SqlDataReader myReader;
+        //    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+        //    {
+        //        myCon.Open();
+        //        using (SqlCommand myCommand = new SqlCommand(query, myCon))
+        //        {
+        //            myReader = myCommand.ExecuteReader();
+        //            table.Load(myReader);
+        //            myReader.Close();
+        //            myCon.Close();
+        //        }
+        //    }
 
-            return new JsonResult(table);
+        //    return new JsonResult(table);
 
-        }
+        //}
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SharedService} from 'src/app/shared.service'
+import { SharedapiService } from 'src/app/services/sharedapi.service';
 
 @Component({
   selector: 'app-show-emp',
@@ -8,7 +8,7 @@ import {SharedService} from 'src/app/shared.service'
 })
 export class ShowEmpComponent implements OnInit {
 
-  constructor(private service:SharedService) { }
+  constructor(private service:SharedapiService) { }
 
   EmployeeList:any=[];
 
