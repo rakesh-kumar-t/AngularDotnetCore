@@ -11,6 +11,8 @@
 * Use postman and use the APIs to add some dummy data to table
 * Run the WebAPI first(recommeneded to run from visual studio)
 * Then run the angular app
+  * ``` npm i ``` 
+  * ``` ng serve ``` 
 
 * Command for creating models from db
   * ``` scaffold-dbcontext "Data Source=.;Initial Catalog=CompanyDB; Integrated Security=true" Microsoft.EntityFrameworkCore.SqlServer -outputdir Models ```
