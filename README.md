@@ -2,7 +2,7 @@
 
 > Angular v13
 
-> .Net 6.0
+> .Net 5.0
 
 ### Angular app with dotnet core web api and mssql as backend
 ##### _points to note_

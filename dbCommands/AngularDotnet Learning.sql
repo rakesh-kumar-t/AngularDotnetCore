@@ -1,6 +1,6 @@
-create database EmployeeDB
+create database CompanyDB
 
-use EmployeeDB
+use CompanyDB
 
 create table dbo.Department(
 DepartmentId int identity(1,1),
