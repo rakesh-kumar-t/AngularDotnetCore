@@ -13,6 +13,7 @@ import { AddEditEmpComponent } from './employee/add-edit-emp/add-edit-emp.compon
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms'
 import { SharedapiService } from './services/sharedapi.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SharedapiService } from './services/sharedapi.service';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [SharedapiService],
   bootstrap: [AppComponent]

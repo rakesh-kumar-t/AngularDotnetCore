@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI
 {
@@ -27,6 +29,10 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CompanyDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("EmployeeAppCon"));
+            });
             //Enable CORS
             services.AddCors(c =>
             {
@@ -57,6 +63,7 @@ namespace WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
+           
 
             app.UseEndpoints(endpoints =>
             {

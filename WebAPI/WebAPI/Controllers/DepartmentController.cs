@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Data;
 using WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebAPI.Controllers
 {
@@ -15,12 +16,19 @@ namespace WebAPI.Controllers
     [ApiController]
     public class DepartmentController : ControllerBase
     {
-        private CompanyDBContext companyDB=new CompanyDBContext();
+        private readonly CompanyDBContext _companyDB;
+        private readonly IWebHostEnvironment _env;
+
+        public DepartmentController(IWebHostEnvironment env, CompanyDBContext companyDB)
+        {
+            _env = env;
+            _companyDB = companyDB;
+        }
 
         [HttpGet]
         public JsonResult Get()
         {
-            var departments = companyDB.Departments.ToList();
+            var departments = _companyDB.Departments.ToList();
 
             return new JsonResult(departments);
 
@@ -31,8 +39,8 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                companyDB.Departments.Add(dep);
-                var result=companyDB.SaveChanges();
+                _companyDB.Departments.Add(dep);
+                var result=_companyDB.SaveChanges();
                 if (result > 0)
                 {
                     return new JsonResult("Added Successfully");
@@ -48,8 +56,8 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                companyDB.Entry(dep).State = EntityState.Modified;
-                var result=companyDB.SaveChanges();
+                _companyDB.Entry(dep).State = EntityState.Modified;
+                var result=_companyDB.SaveChanges();
                 if (result > 0)
                 {
                     return new JsonResult("Updated Successfully");
@@ -63,11 +71,11 @@ namespace WebAPI.Controllers
         {
             if (id != null)
             {
-                var department = companyDB.Departments.Find(id);
+                var department = _companyDB.Departments.Find(id);
                 if (department != null)
                 {
-                    companyDB.Departments.Remove(department);
-                    var result=companyDB.SaveChanges();
+                    _companyDB.Departments.Remove(department);
+                    var result=_companyDB.SaveChanges();
                     if(result > 0)
                     {
                         return new JsonResult("Deleted Successfully");

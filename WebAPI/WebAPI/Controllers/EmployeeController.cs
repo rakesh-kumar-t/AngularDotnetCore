@@ -18,18 +18,19 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private CompanyDBContext companyDB=new CompanyDBContext();
+        private readonly CompanyDBContext _companyDB;
         private readonly IWebHostEnvironment _env;
 
-        public EmployeeController(IWebHostEnvironment env)
+        public EmployeeController(IWebHostEnvironment env,CompanyDBContext companyDB)
         {
             _env = env;
+            _companyDB = companyDB;
         }
 
         [HttpGet]
         public JsonResult Get()
         {
-            var employees = companyDB.Employees.ToList();
+            var employees = _companyDB.Employees.ToList();
 
             return new JsonResult(employees);
         }
@@ -39,8 +40,8 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                companyDB.Employees.Add(emp);
-                var result = companyDB.SaveChanges();
+                _companyDB.Employees.Add(emp);
+                var result = _companyDB.SaveChanges();
                 if (result > 0)
                 {
                     return new JsonResult("Added Successfully");
@@ -55,8 +56,8 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                companyDB.Entry(emp).State = EntityState.Modified;
-                var result = companyDB.SaveChanges();
+                _companyDB.Entry(emp).State = EntityState.Modified;
+                var result = _companyDB.SaveChanges();
                 if (result > 0)
                 {
                     return new JsonResult("Updated Successfully");
@@ -70,11 +71,11 @@ namespace WebAPI.Controllers
         {
             if (id != null)
             {
-                var employee = companyDB.Employees.Find(id);
+                var employee = _companyDB.Employees.Find(id);
                 if (employee != null)
                 {
-                    companyDB.Employees.Remove(employee);
-                    var result = companyDB.SaveChanges();
+                    _companyDB.Employees.Remove(employee);
+                    var result = _companyDB.SaveChanges();
                     if (result > 0)
                     {
                         return new JsonResult("Deleted Successfully");
