@@ -1,0 +1,16 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+section {
+  display: table;
+}
+.button-row {
+  display: table-cell;
+  width: auto;
+}

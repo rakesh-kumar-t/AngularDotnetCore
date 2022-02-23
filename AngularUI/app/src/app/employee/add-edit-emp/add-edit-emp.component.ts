@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Employee } from 'src/app/models/Employee';
 import { SharedapiService } from 'src/app/services/sharedapi.service';
 
 @Component({
@@ -10,8 +11,8 @@ export class AddEditEmpComponent implements OnInit {
 
   constructor(private service:SharedapiService) { }
 
-  @Input() emp:any;
-  EmployeeId:string;
+  @Input() emp:Employee;
+  EmployeeId:Number;
   EmployeeName:string;
   Department:string;
   DateOfJoining:string;
@@ -40,7 +41,7 @@ export class AddEditEmpComponent implements OnInit {
 
   addEmployee(){
 
-    var val={
+    var val:Employee={
       EmployeeId:this.EmployeeId,
       EmployeeName:this.EmployeeName,
       Department:this.Department,
@@ -54,7 +55,7 @@ export class AddEditEmpComponent implements OnInit {
   }
 
   updateEmployee(){
-    var val={
+    var val:Employee={
       EmployeeId:this.EmployeeId,
       EmployeeName:this.EmployeeName,
       Department:this.Department,

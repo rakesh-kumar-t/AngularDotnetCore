@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,AfterViewInit,ViewChild } from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Employee } from 'src/app/models/Employee';
 import { SharedapiService } from 'src/app/services/sharedapi.service';
 
 @Component({
@@ -6,17 +10,42 @@ import { SharedapiService } from 'src/app/services/sharedapi.service';
   templateUrl: './show-emp.component.html',
   styleUrls: ['./show-emp.component.css']
 })
-export class ShowEmpComponent implements OnInit {
+export class ShowEmpComponent implements OnInit,AfterViewInit {
 
-  constructor(private service:SharedapiService) { }
+  displayedColumns:string[]=['EmployeeId',	'EmployeeName',	'Department',	'DateOfJoining','action'];
+  dataSource = new MatTableDataSource<Employee>();
+  
+  @ViewChild(MatPaginator) paginator:MatPaginator;
+  @ViewChild(MatSort) sort:MatSort;
 
-  EmployeeList:any=[];
-
+  EmployeeList:Employee[]=[];
   ModalTitle:string;
   ActivateAddEditEmpComp:boolean=false;
-  emp:any;
+  emp:Employee;
+  
+  
   ngOnInit(): void {
-    this.refreshEmpList();
+    this.service.getEmpList().subscribe(data=>{
+      this.EmployeeList=data;
+      this.dataSource.data=this.EmployeeList;
+    })
+  }
+
+  constructor(private service:SharedapiService) { 
+  }
+
+  ngAfterViewInit(): void {
+      this.dataSource.paginator=this.paginator;
+      this.dataSource.sort=this.sort;
+  }
+
+  applyFilter(event:Event){
+    const filterValue=(event.target as HTMLInputElement).value;
+    this.dataSource.filter=filterValue.trim().toLowerCase();
+
+    if(this.dataSource.paginator){
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   addClick(){
@@ -31,13 +60,14 @@ export class ShowEmpComponent implements OnInit {
     this.ActivateAddEditEmpComp=true;
   } 
 
-  editClick(item:any){
+  editClick(item:Employee){
+    console.log(item)
     this.emp=item;
     this.ModalTitle="Edit Employee";
     this.ActivateAddEditEmpComp=true;
   }
 
-  deleteClick(item:any){
+  deleteClick(item:Employee){
     if(confirm("Are You Sure??")){
       this.service.deleteEmployee(item.EmployeeId).subscribe(data=>{
         alert(data.toString());
@@ -54,6 +84,7 @@ export class ShowEmpComponent implements OnInit {
   refreshEmpList(){
     this.service.getEmpList().subscribe(data=>{
       this.EmployeeList=data;
+      this.dataSource.data=data;
     })
   }
 
