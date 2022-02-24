@@ -1,15 +1,17 @@
 <!-- Button trigger modal -->
-<button
-  type="button"
-  class="btn btn-primary float-end m-2"
-  data-bs-toggle="modal"
-  data-bs-target="#employeeModal"
-  (click)="addClick()"
-  data-backdrop="static"
-  data-keyboard="false"
->
-  Add Employee
-</button>
+<div fxLayout="row" fxLayoutAlign="end center">
+  <button
+    mat-flat-button
+    color="primary"
+    data-bs-toggle="modal"
+    data-bs-target="#employeeModal"
+    (click)="addClick()"
+    data-backdrop="static"
+    data-keyboard="false"
+  >
+    Add Employee
+  </button>
+</div>
 
 <!-- Modal -->
 <div
@@ -44,7 +46,7 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. John" #input />
 </mat-form-field>
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z4">
   <table mat-table [dataSource]="dataSource" matSort>
     <!-- ID Column -->
     <ng-container matColumnDef="EmployeeId">
@@ -59,9 +61,11 @@
     </ng-container>
 
     <!-- Dept Column -->
-    <ng-container matColumnDef="Department">
+    <ng-container matColumnDef="DepartmentId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
-      <td mat-cell *matCellDef="let row">{{ row.Department }}</td>
+      <td mat-cell *matCellDef="let row">
+        {{ row.Department.DepartmentName }}
+      </td>
     </ng-container>
 
     <!-- Date Column -->

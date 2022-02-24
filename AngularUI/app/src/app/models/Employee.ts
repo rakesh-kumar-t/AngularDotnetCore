@@ -1,7 +1,10 @@
+import { Department } from "./Department";
+
 export interface Employee{
     EmployeeId:Number;
     EmployeeName:string;
-    Department:string;
+    DepartmentId:Number;
     DateOfJoining:string;
     PhotoFileName:string;
+    Department?:Department;
 }

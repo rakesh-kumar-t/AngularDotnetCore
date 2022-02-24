@@ -1,0 +1,11 @@
+section {
+  display: table;
+}
+.button-row {
+  display: table-cell;
+  width: 490px;
+}
+
+.button-row {
+  margin: 8px 8px 8px 0;
+}
