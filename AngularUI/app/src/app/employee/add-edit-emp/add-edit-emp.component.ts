@@ -14,7 +14,7 @@ export class AddEditEmpComponent implements OnInit {
   @Input() emp:Employee;
   EmployeeId:Number;
   EmployeeName:string;
-  Department:string;
+  DepartmentId:Number;
   DateOfJoining:string;
   PhotoFileName:string;
   PhotoFilePath:string;
@@ -32,7 +32,7 @@ export class AddEditEmpComponent implements OnInit {
       
       this.EmployeeId=this.emp.EmployeeId;
       this.EmployeeName=this.emp.EmployeeName;
-      this.Department=this.emp.Department;
+      this.DepartmentId=this.emp.DepartmentId;
       this.DateOfJoining=this.emp.DateOfJoining;
       this.PhotoFileName=this.emp.PhotoFileName;
       this.PhotoFilePath=this.service.PhotoUrl+this.PhotoFileName;
@@ -44,7 +44,7 @@ export class AddEditEmpComponent implements OnInit {
     var val:Employee={
       EmployeeId:this.EmployeeId,
       EmployeeName:this.EmployeeName,
-      Department:this.Department,
+      DepartmentId:this.DepartmentId,
       DateOfJoining:this.DateOfJoining,
       PhotoFileName:this.PhotoFileName
     };
@@ -58,7 +58,7 @@ export class AddEditEmpComponent implements OnInit {
     var val:Employee={
       EmployeeId:this.EmployeeId,
       EmployeeName:this.EmployeeName,
-      Department:this.Department,
+      DepartmentId:this.DepartmentId,
       DateOfJoining:this.DateOfJoining,
       PhotoFileName:this.PhotoFileName
     };

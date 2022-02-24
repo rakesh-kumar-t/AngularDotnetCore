@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedapiService {
 
-  readonly APIUrl ="http://localhost:5000/api";
+  readonly APIUrl =environment.APIUrl;
   readonly PhotoUrl="http://localhost:5000/Photos/";
   constructor(private http:HttpClient) { }
   getDepList():Observable<any[]>{

@@ -12,8 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using DataAccess.Context;
 
 namespace WebAPI
 {
@@ -29,7 +29,7 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CompanyDBContext>(options =>
+            services.AddDbContext<WorkDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("EmployeeAppCon"));
             });

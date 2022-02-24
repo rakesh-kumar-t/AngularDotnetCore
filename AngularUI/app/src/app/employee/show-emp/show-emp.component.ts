@@ -12,7 +12,7 @@ import { SharedapiService } from 'src/app/services/sharedapi.service';
 })
 export class ShowEmpComponent implements OnInit,AfterViewInit {
 
-  displayedColumns:string[]=['EmployeeId',	'EmployeeName',	'Department',	'DateOfJoining','action'];
+  displayedColumns:string[]=['EmployeeId',	'EmployeeName',	'DepartmentId',	'DateOfJoining','action'];
   dataSource = new MatTableDataSource<Employee>();
   
   @ViewChild(MatPaginator) paginator:MatPaginator;
@@ -25,10 +25,7 @@ export class ShowEmpComponent implements OnInit,AfterViewInit {
   
   
   ngOnInit(): void {
-    this.service.getEmpList().subscribe(data=>{
-      this.EmployeeList=data;
-      this.dataSource.data=this.EmployeeList;
-    })
+    this.refreshEmpList();
   }
 
   constructor(private service:SharedapiService) { 
@@ -52,7 +49,7 @@ export class ShowEmpComponent implements OnInit,AfterViewInit {
     this.emp={
       EmployeeId:0,
       EmployeeName:"",
-      Department:"",
+      DepartmentId:1,
       DateOfJoining:"",
       PhotoFileName:"anonymus.png"
     }
@@ -61,7 +58,6 @@ export class ShowEmpComponent implements OnInit,AfterViewInit {
   } 
 
   editClick(item:Employee){
-    console.log(item)
     this.emp=item;
     this.ModalTitle="Edit Employee";
     this.ActivateAddEditEmpComp=true;
@@ -84,6 +80,7 @@ export class ShowEmpComponent implements OnInit,AfterViewInit {
   refreshEmpList(){
     this.service.getEmpList().subscribe(data=>{
       this.EmployeeList=data;
+      console.log(data)
       this.dataSource.data=data;
     })
   }
