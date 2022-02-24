@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 using System.Data;
-using WebAPI.Models;
+using DataAccess.Models;
+using DataAccess.Context;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
@@ -18,19 +19,19 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly CompanyDBContext _companyDB;
+        private readonly WorkDBContext _workDB;
         private readonly IWebHostEnvironment _env;
 
-        public EmployeeController(IWebHostEnvironment env,CompanyDBContext companyDB)
+        public EmployeeController(IWebHostEnvironment env,WorkDBContext workDB)
         {
             _env = env;
-            _companyDB = companyDB;
+            _workDB = workDB;
         }
 
         [HttpGet]
         public JsonResult Get()
         {
-            var employees = _companyDB.Employees.ToList();
+            var employees = _workDB.Employees.Include(emp=>emp.Department).ToList();
 
             return new JsonResult(employees);
         }
@@ -40,8 +41,8 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _companyDB.Employees.Add(emp);
-                var result = _companyDB.SaveChanges();
+                _workDB.Employees.Add(emp);
+                var result = _workDB.SaveChanges();
                 if (result > 0)
                 {
                     return new JsonResult("Added Successfully");
@@ -56,8 +57,8 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _companyDB.Entry(emp).State = EntityState.Modified;
-                var result = _companyDB.SaveChanges();
+                _workDB.Entry(emp).State = EntityState.Modified;
+                var result = _workDB.SaveChanges();
                 if (result > 0)
                 {
                     return new JsonResult("Updated Successfully");
@@ -71,11 +72,11 @@ namespace WebAPI.Controllers
         {
             if (id != null)
             {
-                var employee = _companyDB.Employees.Find(id);
+                var employee = _workDB.Employees.Find(id);
                 if (employee != null)
                 {
-                    _companyDB.Employees.Remove(employee);
-                    var result = _companyDB.SaveChanges();
+                    _workDB.Employees.Remove(employee);
+                    var result = _workDB.SaveChanges();
                     if (result > 0)
                     {
                         return new JsonResult("Deleted Successfully");
@@ -110,28 +111,5 @@ namespace WebAPI.Controllers
             }
         }
 
-        //[Route("GetAllDepartmentNames")]
-        //public JsonResult GetAllDepartmentNames()
-        //{
-        //    string query = @"
-        //                    select DepartmentName from dbo.Department";
-        //    DataTable table = new DataTable();
-        //    string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
-        //    SqlDataReader myReader;
-        //    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-        //    {
-        //        myCon.Open();
-        //        using (SqlCommand myCommand = new SqlCommand(query, myCon))
-        //        {
-        //            myReader = myCommand.ExecuteReader();
-        //            table.Load(myReader);
-        //            myReader.Close();
-        //            myCon.Close();
-        //        }
-        //    }
-
-        //    return new JsonResult(table);
-
-        //}
     }
 }
