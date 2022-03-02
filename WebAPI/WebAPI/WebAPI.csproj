@@ -17,8 +17,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CompanyService\CompanyService.csproj" />
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="CompanyService">
-      <HintPath>..\CompanyService\bin\Debug\net5.0\CompanyService.dll</HintPath>
+      <HintPath>refDLL\CompanyService.dll</HintPath>
     </Reference>
     <Reference Include="DataAccess">
       <HintPath>..\DataAccess\bin\Debug\net5.0\DataAccess.dll</HintPath>
