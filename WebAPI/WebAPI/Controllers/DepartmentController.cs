@@ -10,29 +10,42 @@ using DataAccess.Context;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using CompanyService.Intefaces;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DepartmentController : ControllerBase
+    public class DepartmentController : Controller
     {
         private readonly WorkDBContext _workDB;
         private readonly IWebHostEnvironment _env;
+        private readonly IDepartmentService _deptService;
 
-        public DepartmentController(IWebHostEnvironment env, WorkDBContext workDB)
+        public DepartmentController(IWebHostEnvironment env, WorkDBContext workDB,IDepartmentService deptService)
         {
             _env = env;
             _workDB = workDB;
+            _deptService = deptService;
         }
 
         [HttpGet]
-        public JsonResult Get()
+        public IActionResult Get()
         {
-            var departments = _workDB.Departments.ToList();
+            var departments = _deptService.GetAllDepartments();
 
-            return new JsonResult(departments);
+            return Ok(departments);
 
+        }
+        [HttpGet("{id}")]
+        public IActionResult Get(int? id)
+        {
+            if (id != null)
+            {
+                var department = _deptService.GetDepartment(id);
+                return Ok(department);
+            }
+            return null;
         }
 
         [HttpPost]
@@ -40,9 +53,7 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _workDB.Departments.Add(dep);
-                var result=_workDB.SaveChanges();
-                if (result > 0)
+                if(_deptService.AddDepartment(dep))
                 {
                     return new JsonResult("Added Successfully");
                 }
