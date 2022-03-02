@@ -10,7 +10,8 @@ using DataAccess.Context;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
-using CompanyService.Intefaces;
+using CompanyService.Interfaces;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -30,11 +31,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IEnumerable<Department>> Get()
         {
-            var departments = _deptService.GetAllDepartments();
+            var departments = await _deptService.GetAllDepartments();
 
-            return Ok(departments);
+            return departments;
 
         }
         [HttpGet("{id}")]

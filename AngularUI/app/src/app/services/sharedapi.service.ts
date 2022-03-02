@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Department } from '../models/Department';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class SharedapiService {
   readonly PhotoUrl="http://localhost:5000/Photos/";
   constructor(private http:HttpClient) { }
   getDepList():Observable<any[]>{
-    return this.http.get<any>(this.APIUrl+'/Department');
+    return this.http.get<any[]>(this.APIUrl+'/Department');
   }
 
   addDepartment(val:any){

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CompanyService.Intefaces;
+using CompanyService.Interfaces;
 using DataAccess.Models;
 using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;

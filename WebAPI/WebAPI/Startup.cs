@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Context;
+using CompanyService.Interfaces;
+using CompanyService.Services;
 
 namespace WebAPI
 {
@@ -49,6 +51,8 @@ namespace WebAPI
                 =new DefaultContractResolver()
                 );
             services.AddControllers();
+            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IDepartmentService, DepartmentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
