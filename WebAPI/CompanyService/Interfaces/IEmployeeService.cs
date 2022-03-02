@@ -7,9 +7,9 @@ namespace CompanyService.Interfaces
     public interface IEmployeeService
     {
         Task<IEnumerable<Employee>> GetAllEmployees();
-        Task<Employee> GetEmployee(int? employeeId);
-        int AddEmployee(Employee employee);
-        int UpdateEmployee(Employee employee);
-        int DeleteEmployee(int? id);
+        Employee GetEmployee(int? employeeId);
+        bool AddEmployee(Employee employee);
+        bool UpdateEmployee(Employee employee);
+        bool DeleteEmployee(int? employeeId);
     }
 }

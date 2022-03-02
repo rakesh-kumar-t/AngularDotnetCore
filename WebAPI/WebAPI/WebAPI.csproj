@@ -7,11 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.14">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
@@ -20,10 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CompanyService\CompanyService.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Reference Include="CompanyService">
+      <HintPath>..\CompanyService\bin\Debug\net5.0\CompanyService.dll</HintPath>
+    </Reference>
     <Reference Include="DataAccess">
       <HintPath>..\DataAccess\bin\Debug\net5.0\DataAccess.dll</HintPath>
     </Reference>

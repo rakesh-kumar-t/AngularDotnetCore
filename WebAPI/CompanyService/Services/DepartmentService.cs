@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CompanyService.Interfaces;
 using DataAccess.Models;
@@ -46,15 +44,27 @@ namespace CompanyService.Services
             return false;
         }
 
-        public bool DeleteDepartment(int? departmentId)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public bool UpdateDepartment(Department department)
         {
-            throw new NotImplementedException();
+            _workDB.Entry(department).State = EntityState.Modified;
+            var result = _workDB.SaveChanges();
+            if (result > 0)
+                return true;
+            return false;
         }
+        public bool DeleteDepartment(int? departmentId)
+        {
+            var department = _workDB.Departments.Find(departmentId);
+            if (department != null)
+            {
+                _workDB.Departments.Remove(department);
+                var result = _workDB.SaveChanges();
+                if (result > 0)
+                    return true;
+            }
+            return false;
+        }
+
+
     }
 }

@@ -1,14 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.Configuration;
-using System.Data.SqlClient;
-using System.Data;
 using DataAccess.Context;
 using DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using CompanyService.Interfaces;
 using System.Threading.Tasks;
@@ -69,9 +62,7 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _workDB.Entry(dep).State = EntityState.Modified;
-                var result=_workDB.SaveChanges();
-                if (result > 0)
+                if (_deptService.UpdateDepartment(dep))
                 {
                     return new JsonResult("Updated Successfully");
                 }
@@ -84,15 +75,9 @@ namespace WebAPI.Controllers
         {
             if (id != null)
             {
-                var department = _workDB.Departments.Find(id);
-                if (department != null)
+                if(_deptService.DeleteDepartment(id))
                 {
-                    _workDB.Departments.Remove(department);
-                    var result=_workDB.SaveChanges();
-                    if(result > 0)
-                    {
-                        return new JsonResult("Deleted Successfully");
-                    }
+                    return new JsonResult("Deleted Successfully");
                 }
             }
             return new JsonResult("Something went wrong, Please try again");

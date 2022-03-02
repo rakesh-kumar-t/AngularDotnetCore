@@ -83,7 +83,6 @@ export class ShowDepComponent implements OnInit,AfterViewInit {
   refreshDepList(){
     this.service.getDepList().subscribe((data:Department[])=>{
       this.DepartmentList=data;
-      console.log(data)
       this.DepartmentListWithoutFilter=data;
       this.dataSource.data=data;
     })

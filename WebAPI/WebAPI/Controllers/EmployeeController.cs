@@ -1,17 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using System.Data.SqlClient;
-using System.Data;
 using DataAccess.Models;
-using DataAccess.Context;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
-using Microsoft.EntityFrameworkCore;
+using CompanyService.Interfaces;
+using System.Collections.Generic;
 
 namespace WebAPI.Controllers
 {
@@ -19,21 +12,23 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly WorkDBContext _workDB;
         private readonly IWebHostEnvironment _env;
+        private readonly  IEmployeeService _employeeService;
 
-        public EmployeeController(IWebHostEnvironment env,WorkDBContext workDB)
+
+        public EmployeeController(IWebHostEnvironment env,IEmployeeService employeeService)
         {
             _env = env;
-            _workDB = workDB;
+            _employeeService = employeeService;
         }
 
         [HttpGet]
-        public JsonResult Get()
+        public async Task<IEnumerable<Employee>> Get()
         {
-            var employees = _workDB.Employees.Include(emp=>emp.Department).ToList();
+            var employees = await _employeeService.GetAllEmployees();
 
-            return new JsonResult(employees);
+            return employees;
+
         }
 
         [HttpPost]
@@ -41,13 +36,10 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _workDB.Employees.Add(emp);
-                var result = _workDB.SaveChanges();
-                if (result > 0)
+                if (_employeeService.AddEmployee(emp))
                 {
                     return new JsonResult("Added Successfully");
                 }
-
             }
             return new JsonResult("Something went wrong, Please try again");
         }
@@ -57,9 +49,7 @@ namespace WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _workDB.Entry(emp).State = EntityState.Modified;
-                var result = _workDB.SaveChanges();
-                if (result > 0)
+                if (_employeeService.UpdateEmployee(emp))
                 {
                     return new JsonResult("Updated Successfully");
                 }
@@ -72,15 +62,9 @@ namespace WebAPI.Controllers
         {
             if (id != null)
             {
-                var employee = _workDB.Employees.Find(id);
-                if (employee != null)
+                if (_employeeService.DeleteEmployee(id))
                 {
-                    _workDB.Employees.Remove(employee);
-                    var result = _workDB.SaveChanges();
-                    if (result > 0)
-                    {
-                        return new JsonResult("Deleted Successfully");
-                    }
+                    return new JsonResult("Deleted Successfully");
                 }
             }
             return new JsonResult("Something went wrong, Please try again");

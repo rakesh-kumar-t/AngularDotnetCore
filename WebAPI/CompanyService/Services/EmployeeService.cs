@@ -1,38 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CompanyService.Interfaces;
+using DataAccess.Context;
 using DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompanyService.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        int IEmployeeService.AddEmployee(Employee employee)
+        private readonly WorkDBContext _workDB;
+        public EmployeeService(WorkDBContext workDB)
         {
-            throw new NotImplementedException();
+            _workDB = workDB;
+        }
+        public bool AddEmployee(Employee employee)
+        {
+            if (employee != null)
+            {
+                _workDB.Employees.Add(employee);
+                var result = _workDB.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        int IEmployeeService.DeleteEmployee(int? id)
+        public async Task<IEnumerable<Employee>> GetAllEmployees()
         {
-            throw new NotImplementedException();
+            var employees = await _workDB.Employees.Include(emp=>emp.Department).ToListAsync();
+            return employees; 
         }
 
-        Task<IEnumerable<Employee>> IEmployeeService.GetAllEmployees()
+        public Employee GetEmployee(int? employeeId)
         {
-            throw new NotImplementedException();
+            if (employeeId != null)
+            {
+                var employee = _workDB.Employees.Find(employeeId);
+                return employee;
+            }
+            return null;
         }
 
-        Task<Employee> IEmployeeService.GetEmployee(int? employeeId)
+        public bool UpdateEmployee(Employee employee)
         {
-            throw new NotImplementedException();
+            _workDB.Entry(employee).State = EntityState.Modified;
+            var result = _workDB.SaveChanges();
+            if (result > 0)
+                return true;
+            return false; 
         }
-
-        int IEmployeeService.UpdateEmployee(Employee employee)
+        public bool DeleteEmployee(int? employeeId)
         {
-            throw new NotImplementedException();
+            if (employeeId != null)
+            {
+                var employee = _workDB.Employees.Find(employeeId);
+                if (employee != null)
+                {
+                    _workDB.Employees.Remove(employee);
+                    var result = _workDB.SaveChanges();
+                    if (result > 0)
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }
