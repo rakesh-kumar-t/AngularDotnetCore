@@ -40,3 +40,10 @@
     │   ├── Startup.cs      
     │   └── appsettings.json               
     └── ...
+
+### Observed Issue
+  - Build fail because of namespace not found issues
+    - Reference the DataAccess.dll and CompanyService.dll for WebAPI Project from RefDll folder inside WebAPI Project   
+    - Reference to the DataAccess.dll for CompanyService Project from same folder
+  - Database connection error or Object not found error
+    - Run Update-database command from nuget package manager console, Selecting the DataAccess Project from Dropdown of the console    
