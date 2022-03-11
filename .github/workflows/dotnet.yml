@@ -18,10 +18,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore WebAPI/WebAPI.sln
-      working-directory: WebAPI/WebAPI
+      run: dotnet restore ./WebAPI/WebAPI/WebAPI.csproj
     - name: Build
-      run: dotnet build WebAPI/WebAPI.sln --no-restore
+      run: dotnet build ./WebAPI/WebAPI/WebAPI.csproj --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
-      working-directory: WebAPI/WebAPI
+      run: dotnet test ./WebAPI/WebAPI/WebAPI.csproj --no-build --verbosity normal
