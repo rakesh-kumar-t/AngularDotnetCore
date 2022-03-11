@@ -8,9 +8,9 @@ using DataAccess.Models;
 
 namespace DataAccess.Context
 {
-    public class WorkDBContext:DbContext
+    public class CompanyDBContext:DbContext
     {
-        public WorkDBContext(DbContextOptions<WorkDBContext> options) : base(options)
+        public CompanyDBContext(DbContextOptions<CompanyDBContext> options) : base(options)
         {
 
         }

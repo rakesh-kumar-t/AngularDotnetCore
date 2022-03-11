@@ -12,14 +12,12 @@ namespace WebAPI.Controllers
     [ApiController]
     public class DepartmentController : Controller
     {
-        private readonly WorkDBContext _workDB;
-        private readonly IWebHostEnvironment _env;
+        private readonly CompanyDBContext _companyDB;
         private readonly IDepartmentService _deptService;
 
-        public DepartmentController(IWebHostEnvironment env, WorkDBContext workDB,IDepartmentService deptService)
+        public DepartmentController( CompanyDBContext companyDB,IDepartmentService deptService)
         {
-            _env = env;
-            _workDB = workDB;
+            _companyDB = companyDB;
             _deptService = deptService;
         }
 

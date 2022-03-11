@@ -9,14 +9,14 @@ namespace CompanyService.Services
 {
     public class DepartmentService : IDepartmentService
     {
-        private readonly WorkDBContext _workDB;
-        public DepartmentService(WorkDBContext workDB)
+        private readonly CompanyDBContext _companyDB;
+        public DepartmentService(CompanyDBContext companyDB)
         {
-            _workDB = workDB;
+            _companyDB = companyDB;
         }
         public async Task<IEnumerable<Department>> GetAllDepartments()
         {
-            var departments = await _workDB.Departments.ToListAsync();
+            var departments = await _companyDB.Departments.ToListAsync();
             return departments;
         }
 
@@ -24,7 +24,7 @@ namespace CompanyService.Services
         {
             if (departmentId != null)
             {
-                var department = _workDB.Departments.Find(departmentId);
+                var department = _companyDB.Departments.Find(departmentId);
                 return department;
             }
             return null;
@@ -34,8 +34,8 @@ namespace CompanyService.Services
         {
             if (department != null)
             {
-                _workDB.Departments.Add(department);
-                var result = _workDB.SaveChanges();
+                _companyDB.Departments.Add(department);
+                var result = _companyDB.SaveChanges();
                 if (result > 0)
                 {
                     return true;
@@ -46,19 +46,19 @@ namespace CompanyService.Services
 
         public bool UpdateDepartment(Department department)
         {
-            _workDB.Entry(department).State = EntityState.Modified;
-            var result = _workDB.SaveChanges();
+            _companyDB.Entry(department).State = EntityState.Modified;
+            var result = _companyDB.SaveChanges();
             if (result > 0)
                 return true;
             return false;
         }
         public bool DeleteDepartment(int? departmentId)
         {
-            var department = _workDB.Departments.Find(departmentId);
+            var department = _companyDB.Departments.Find(departmentId);
             if (department != null)
             {
-                _workDB.Departments.Remove(department);
-                var result = _workDB.SaveChanges();
+                _companyDB.Departments.Remove(department);
+                var result = _companyDB.SaveChanges();
                 if (result > 0)
                     return true;
             }

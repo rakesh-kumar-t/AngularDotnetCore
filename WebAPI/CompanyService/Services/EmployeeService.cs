@@ -9,17 +9,17 @@ namespace CompanyService.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly WorkDBContext _workDB;
-        public EmployeeService(WorkDBContext workDB)
+        private readonly CompanyDBContext _companyDB;
+        public EmployeeService(CompanyDBContext companyDB)
         {
-            _workDB = workDB;
+            _companyDB = companyDB;
         }
         public bool AddEmployee(Employee employee)
         {
             if (employee != null)
             {
-                _workDB.Employees.Add(employee);
-                var result = _workDB.SaveChanges();
+                _companyDB.Employees.Add(employee);
+                var result = _companyDB.SaveChanges();
                 if (result > 0)
                 {
                     return true;
@@ -30,7 +30,7 @@ namespace CompanyService.Services
 
         public async Task<IEnumerable<Employee>> GetAllEmployees()
         {
-            var employees = await _workDB.Employees.Include(emp=>emp.Department).ToListAsync();
+            var employees = await _companyDB.Employees.Include(emp=>emp.Department).ToListAsync();
             return employees; 
         }
 
@@ -38,7 +38,7 @@ namespace CompanyService.Services
         {
             if (employeeId != null)
             {
-                var employee = _workDB.Employees.Find(employeeId);
+                var employee = _companyDB.Employees.Find(employeeId);
                 return employee;
             }
             return null;
@@ -46,8 +46,8 @@ namespace CompanyService.Services
 
         public bool UpdateEmployee(Employee employee)
         {
-            _workDB.Entry(employee).State = EntityState.Modified;
-            var result = _workDB.SaveChanges();
+            _companyDB.Entry(employee).State = EntityState.Modified;
+            var result = _companyDB.SaveChanges();
             if (result > 0)
                 return true;
             return false; 
@@ -56,11 +56,11 @@ namespace CompanyService.Services
         {
             if (employeeId != null)
             {
-                var employee = _workDB.Employees.Find(employeeId);
+                var employee = _companyDB.Employees.Find(employeeId);
                 if (employee != null)
                 {
-                    _workDB.Employees.Remove(employee);
-                    var result = _workDB.SaveChanges();
+                    _companyDB.Employees.Remove(employee);
+                    var result = _companyDB.SaveChanges();
                     if (result > 0)
                         return true;
                 }
