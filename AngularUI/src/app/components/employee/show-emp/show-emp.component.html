@@ -1,45 +1,11 @@
 <!-- Button trigger modal -->
 <div fxLayout="row" fxLayoutAlign="end center">
-  <button
-    mat-flat-button
-    color="primary"
-    data-bs-toggle="modal"
-    data-bs-target="#employeeModal"
-    (click)="addClick()"
-    data-backdrop="static"
-    data-keyboard="false"
-  >
+  <button mat-flat-button color="primary" (click)="addEmployee()" >
     Add Employee
   </button>
 </div>
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="employeeModal"
-  tabindex="-1"
-  aria-labelledby="employeeModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="employeeModalLabel">{{ ModalTitle }}</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          (click)="closeClick()"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <app-add-edit-emp [emp]="emp" *ngIf="ActivateAddEditEmpComp">
-        </app-add-edit-emp>
-      </div>
-    </div>
-  </div>
-</div>
 
 <mat-form-field appearance="standard">
   <mat-label>Filter</mat-label>
@@ -72,7 +38,7 @@
     <ng-container matColumnDef="DateOfJoining">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>DateOfJoining</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.DateOfJoining }}
+        {{ row.DateOfJoining | date}}
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -84,7 +50,7 @@
       <td mat-cell *matCellDef="let element">
         <button
           mat-icon-button
-          (click)="editClick(element)"
+          (click)="editEmployee(element)"
           data-bs-toggle="modal"
           data-bs-target="#employeeModal"
           data-backdrop="static"
@@ -92,7 +58,7 @@
         >
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteClick(element)">
+        <button mat-icon-button (click)="deleteEmployee(element)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

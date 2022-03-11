@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using CompanyService.Interfaces;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace WebAPI.Controllers
 {
@@ -14,7 +15,6 @@ namespace WebAPI.Controllers
     {
         private readonly IWebHostEnvironment _env;
         private readonly  IEmployeeService _employeeService;
-
 
         public EmployeeController(IWebHostEnvironment env,IEmployeeService employeeService)
         {
@@ -32,42 +32,47 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post(Employee emp)
+        public async Task<IActionResult> Post(Employee emp)
         {
             if (ModelState.IsValid)
             {
-                if (_employeeService.AddEmployee(emp))
+                var res = await _employeeService.AddEmployee(emp);
+                if (res)
                 {
-                    return new JsonResult("Added Successfully");
+                    return Ok(new { status = StatusCodes.Status200OK, success = true, data = "Employee Added successfully" });
                 }
             }
-            return new JsonResult("Something went wrong, Please try again");
+            return BadRequest(new { status = StatusCodes.Status400BadRequest, success = false, data = "Something went wrong, Please try again" });
         }
 
         [HttpPut]
-        public JsonResult Put(Employee emp)
+        public async Task<IActionResult> Put(Employee emp)
         {
             if (ModelState.IsValid)
             {
-                if (_employeeService.UpdateEmployee(emp))
+                var res = await _employeeService.UpdateEmployee(emp);
+                if (res)
                 {
-                    return new JsonResult("Updated Successfully");
+                    return Ok(new { status = StatusCodes.Status200OK, success = true, data = "Employee Updated successfully" });
                 }
             }
-            return new JsonResult("Something went wrong, Please try again");
+            return BadRequest(new { status = StatusCodes.Status400BadRequest, success = false, data = "Something went wrong, Please try again" });
+
         }
 
         [HttpDelete("{id}")]
-        public JsonResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id != null)
             {
-                if (_employeeService.DeleteEmployee(id))
+                var res = await _employeeService.DeleteEmployee(id);
+                if (res)
                 {
-                    return new JsonResult("Deleted Successfully");
+                    return Ok(new { status = StatusCodes.Status200OK, success = true, data = "Employee Deleted successfully" });
                 }
             }
-            return new JsonResult("Something went wrong, Please try again");
+            return BadRequest(new { status = StatusCodes.Status400BadRequest, success = false, data = "Something went wrong, Please try again" });
+
         }
 
         [Route("SaveFile")]

@@ -5,6 +5,7 @@ using DataAccess.Models;
 using Microsoft.AspNetCore.Hosting;
 using CompanyService.Interfaces;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace WebAPI.Controllers
 {
@@ -41,44 +42,50 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post(Department dep)
+        public async Task<IActionResult> Post(Department dep)
         {
             if (ModelState.IsValid)
             {
-                if(_deptService.AddDepartment(dep))
+                var res = await _deptService.AddDepartment(dep);
+                if(res)
                 {
-                    return new JsonResult("Added Successfully");
+                    return Ok(new { status = StatusCodes.Status200OK, success = true, data = "Department added successfully" });
                 }
 
             }
-            return new JsonResult("Something went wrong, Please try again");
+            return BadRequest(new { status = StatusCodes.Status400BadRequest, success = false, data = "Something went wrong, Please try again" });
             
         }
 
         [HttpPut]
-        public JsonResult Put(Department dep)
+        public async Task<IActionResult> Put(Department dep)
         {
             if (ModelState.IsValid)
             {
-                if (_deptService.UpdateDepartment(dep))
+                var res = await _deptService.UpdateDepartment(dep);
+                if (res)
                 {
-                    return new JsonResult("Updated Successfully");
+                    return Ok(new { status = StatusCodes.Status200OK, success = true, data = "Department Updated successfully" });
                 }
             }
-            return new JsonResult("Something went wrong, Please try again");
+            return BadRequest(new { status = StatusCodes.Status400BadRequest, success = false, data = "Something went wrong, Please try again" });
+
         }
 
         [HttpDelete("{id}")]
-        public JsonResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id != null)
             {
-                if(_deptService.DeleteDepartment(id))
+                var res = await _deptService.DeleteDepartment(id);
+                if(res)
                 {
-                    return new JsonResult("Deleted Successfully");
+                    return Ok(new { status = StatusCodes.Status200OK, success = true, data = "Department Deleted successfully" });
+
                 }
             }
-            return new JsonResult("Something went wrong, Please try again");
+            return BadRequest(new { status = StatusCodes.Status400BadRequest, success = false, data = "Something went wrong, Please try again" });
+
         }
     }
 }

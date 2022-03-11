@@ -1,0 +1,25 @@
+<mat-card >
+  <mat-card-header>
+    <p class="lead pb-3" *ngIf="!updateClicked;else updateDept">Add New Department</p>
+    <ng-template #updateDept>
+      <p class="lead pb-3">Update Department</p>
+    </ng-template>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="addDepartmentForm" (ngSubmit)="addDepartment()">
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Department Name</mat-label>
+          <input type="text" matInput placeholder="Department Name" formControlName="DepartmentName">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="col-6">
+              <button type="submit" [disabled]="!addDepartmentForm.valid" mat-raised-button color="primary" *ngIf="!updateClicked" >Add</button>&nbsp;
+              <button type="button" [disabled]="!addDepartmentForm.valid" mat-raised-button color="accent" *ngIf="updateClicked" (click)="updateDepartment(addDepartmentForm.value)">Update</button>&nbsp;
+              <button type="button" mat-raised-button color="warn" (click)="CloseDialog()">Close</button>
+        </div>
+      </div>
+    </form>
+</mat-card-content>
+</mat-card>

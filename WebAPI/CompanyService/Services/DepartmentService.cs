@@ -20,22 +20,22 @@ namespace CompanyService.Services
             return departments;
         }
 
-        public Department GetDepartment(int? departmentId)
+        public async Task<Department> GetDepartment(int? departmentId)
         {
             if (departmentId != null)
             {
-                var department = _companyDB.Departments.Find(departmentId);
+                var department = await _companyDB.Departments.FindAsync(departmentId);
                 return department;
             }
             return null;
         }
 
-        public bool AddDepartment(Department department)
+        public async Task<bool> AddDepartment(Department department)
         {
             if (department != null)
             {
                 _companyDB.Departments.Add(department);
-                var result = _companyDB.SaveChanges();
+                var result = await _companyDB.SaveChangesAsync();
                 if (result > 0)
                 {
                     return true;
@@ -44,21 +44,22 @@ namespace CompanyService.Services
             return false;
         }
 
-        public bool UpdateDepartment(Department department)
+        public async Task<bool> UpdateDepartment(Department department)
         {
             _companyDB.Entry(department).State = EntityState.Modified;
-            var result = _companyDB.SaveChanges();
+            _companyDB.Update(department);
+            var result = await _companyDB.SaveChangesAsync();
             if (result > 0)
                 return true;
             return false;
         }
-        public bool DeleteDepartment(int? departmentId)
+        public async Task<bool> DeleteDepartment(int? departmentId)
         {
-            var department = _companyDB.Departments.Find(departmentId);
+            var department = await _companyDB.Departments.FindAsync(departmentId);
             if (department != null)
             {
                 _companyDB.Departments.Remove(department);
-                var result = _companyDB.SaveChanges();
+                var result = await _companyDB.SaveChangesAsync();
                 if (result > 0)
                     return true;
             }

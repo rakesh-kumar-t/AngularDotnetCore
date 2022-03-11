@@ -1,0 +1,59 @@
+<mat-card>
+  <mat-card-header>
+    <p class="lead pb-3" *ngIf="!updateClicked;else updateEmp">
+      Add New Employee
+    </p>
+    <ng-template #updateEmp>
+      <p class="lead pb-3" >
+        Update Employee
+      </p>
+    </ng-template>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()">
+      <div class="row">
+        <div class="col">
+          <div class="col-12 col-md-5">
+            <mat-form-field appearance="outline">
+              <mat-label>Employee Name</mat-label>
+                <input matInput type="text" formControlName="EmployeeName" placeholder="Employee Name"/>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-5">
+            <mat-form-field appearance="outline">
+              <mat-label>Department</mat-label>
+              <mat-select formControlName="DepartmentId">
+                <mat-option *ngFor="let dept of DepartmentsList" [value]="dept.DepartmentId">
+                  {{dept.DepartmentName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-5">
+            <mat-form-field appearance="fill">
+              <mat-label>Date of Joining</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="DateOfJoining" placeholder="Date of Joining">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col">
+          <div class="ms-3 bd-highlight" style="width: 40%">
+            <img [src]="PhotoFilePath" height="250px" width="200px" />
+            <input type="file" (change)="uploadPhoto($event)" class="mt-2" />
+          </div>
+        </div>
+      </div>
+
+      <button mat-raised-button type="submit" *ngIf="!updateClicked" color="primary">
+        Add
+      </button>
+
+      <button type="button" mat-raised-button (click)="updateEmployee(addEmployeeForm.value)" *ngIf="updateClicked" color="accent" >
+        Update
+      </button>
+      <button type="button" mat-raised-button color="warn" (click)="CloseDialog()">Close</button>
+    </form>
+  </mat-card-content>
+</mat-card>

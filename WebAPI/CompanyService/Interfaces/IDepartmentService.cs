@@ -7,9 +7,9 @@ namespace CompanyService.Interfaces
     public interface IDepartmentService
     {
         Task<IEnumerable<Department>> GetAllDepartments();
-        Department GetDepartment(int? departmentId);
-        bool AddDepartment(Department department);
-        bool UpdateDepartment(Department department);
-        bool DeleteDepartment(int? departmentId);
+        Task<Department> GetDepartment(int? departmentId);
+        Task<bool> AddDepartment(Department department);
+        Task<bool> UpdateDepartment(Department department);
+        Task<bool> DeleteDepartment(int? departmentId);
     }
 }

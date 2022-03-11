@@ -1,9 +1,12 @@
 import { Component, OnInit,AfterViewInit,ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 import { Employee } from 'src/app/models/Employee';
 import { SharedapiService } from 'src/app/services/sharedapi.service';
+import { AddEditEmpComponent } from '../add-edit-emp/add-edit-emp.component';
 
 @Component({
   selector: 'app-show-emp',
@@ -12,23 +15,32 @@ import { SharedapiService } from 'src/app/services/sharedapi.service';
 })
 export class ShowEmpComponent implements OnInit,AfterViewInit {
 
+
+  constructor(
+    private service: SharedapiService,
+    private toastr: ToastrService,
+    private dialog: MatDialog
+  ) {
+    this.dialog.afterAllClosed.subscribe(()=>{
+      this.refreshEmpList();
+    })
+  }
+
   displayedColumns:string[]=['EmployeeId',	'EmployeeName',	'DepartmentId',	'DateOfJoining','action'];
   dataSource = new MatTableDataSource<Employee>();
-  
+
   @ViewChild(MatPaginator) paginator:MatPaginator;
   @ViewChild(MatSort) sort:MatSort;
 
   EmployeeList:Employee[]=[];
   ModalTitle:string;
   ActivateAddEditEmpComp:boolean=false;
-  emp:Employee;
-  
-  
+  emp: Employee;
+  updateClicked: boolean = false;
+
+
   ngOnInit(): void {
     this.refreshEmpList();
-  }
-
-  constructor(private service:SharedapiService) { 
   }
 
   ngAfterViewInit(): void {
@@ -45,44 +57,49 @@ export class ShowEmpComponent implements OnInit,AfterViewInit {
     }
   }
 
-  addClick(){
-    this.emp={
-      EmployeeId:0,
-      EmployeeName:"",
-      DepartmentId:1,
-      DateOfJoining:"",
-      PhotoFileName:"anonymus.png"
-    }
-    this.ModalTitle="Add Employee";
-    this.ActivateAddEditEmpComp=true;
-  } 
-
-  editClick(item:Employee){
-    this.emp=item;
-    this.ModalTitle="Edit Employee";
-    this.ActivateAddEditEmpComp=true;
+  addEmployee() {
+    this.updateClicked = false;
+    this.dialog.open(AddEditEmpComponent, {
+      width: "60%",
+      data: [null, this.updateClicked]
+    });
   }
 
-  deleteClick(item:Employee){
+  editEmployee(item: Employee) {
+    this.updateClicked = true;
+    this.dialog.open(AddEditEmpComponent, {
+      width: "60%",
+      data: [item, this.updateClicked]
+    });
+  }
+
+  deleteEmployee(item:Employee){
     if(confirm("Are You Sure??")){
-      this.service.deleteEmployee(item.EmployeeId).subscribe(data=>{
-        alert(data.toString());
-        this.refreshEmpList();
-      })
-    }
-  }
+      this.service.deleteEmployee(item.EmployeeId).subscribe({
+        next: (res) => {
+          this.toastr.info("Employee Deleted!", "Delete Employee");
+          this.refreshEmpList();
+        }
+      });
+    };
+  };
 
   closeClick(){
     this.ActivateAddEditEmpComp=false;
     this.refreshEmpList();
-  }
+  };
 
   refreshEmpList(){
-    this.service.getEmpList().subscribe(data=>{
-      this.EmployeeList=data;
-      console.log(data)
-      this.dataSource.data=data;
-    })
-  }
+    this.service.getEmpList().subscribe({
+      next: (res) => {
+          this.EmployeeList = res;
+          this.dataSource.data = res;
+      },
+      error: (err) => {
+        console.log(err);
+        this.toastr.error("Error Fetching data", "EmployeeList");
+      }
+    });
+  };
 
 }

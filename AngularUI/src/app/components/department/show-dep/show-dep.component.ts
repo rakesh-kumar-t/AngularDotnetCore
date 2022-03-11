@@ -4,6 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Department } from 'src/app/models/Department';
 import { SharedapiService } from 'src/app/services/sharedapi.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddEditDepComponent } from '../add-edit-dep/add-edit-dep.component';
 
 @Component({
   selector: 'app-show-dep',
@@ -12,36 +14,43 @@ import { SharedapiService } from 'src/app/services/sharedapi.service';
 })
 export class ShowDepComponent implements OnInit,AfterViewInit {
 
+  constructor(
+    private service: SharedapiService,
+    private dialog: MatDialog
+  )
+  {
+    this.dialog.afterAllClosed.subscribe(() => {
+      this.refreshDepList();
+    });
+  };
+
   displayedColumns:string[]=['DepartmentId',	'DepartmentName','Options'];
   dataSource = new MatTableDataSource<Department>();
 
-   
   @ViewChild(MatPaginator) paginator:MatPaginator;
   @ViewChild(MatSort) sort:MatSort;
 
-
-  
   DepartmentList:Department[]=[];
-  
+
   ModalTitle:string;
   ActivateAddEditDepComp:boolean=false;
   dep:Department;
-  
+  updateClicked: boolean=false;
+
   DepartmentIdFilter:string="";
   DepartmentNameFilter:string="";
   DepartmentListWithoutFilter:Department[]=[];
-  
+
+
   ngOnInit(): void {
     this.refreshDepList();
   }
 
-  constructor(private service:SharedapiService) { }
-  
   ngAfterViewInit(): void {
-      this.dataSource.paginator=this.paginator;
-      this.dataSource.sort=this.sort;
+    this.dataSource.paginator=this.paginator;
+    this.dataSource.sort=this.sort;
   }
-  
+
   applyFilter(event:Event){
     const filterValue=(event.target as HTMLInputElement).value;
     this.dataSource.filter=filterValue.trim().toLowerCase();
@@ -51,19 +60,20 @@ export class ShowDepComponent implements OnInit,AfterViewInit {
     }
   }
 
-  addClick(){
-    this.dep={
-      DepartmentId:0,
-      DepartmentName:""
-    }
-    this.ModalTitle="Add Department";
-    this.ActivateAddEditDepComp=true;
-  } 
+  addDepartment() {
+    this.updateClicked = false;
+    this.dialog.open(AddEditDepComponent, {
+      width: "60%",
+      data: [this.dep, this.updateClicked]
+    });
+  }
 
-  editClick(item:Department){
-    this.dep=item;
-    this.ModalTitle="Edit Department";
-    this.ActivateAddEditDepComp=true;
+  editClick(item: Department) {
+    this.updateClicked = true;
+    this.dialog.open(AddEditDepComponent, {
+      width: "60%",
+      data: [item, this.updateClicked]
+    });
   }
 
   deleteClick(item:Department){

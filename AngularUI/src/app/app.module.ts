@@ -3,17 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DepartmentComponent } from './department/department.component';
-import { ShowDepComponent } from './department/show-dep/show-dep.component';
-import { AddEditDepComponent } from './department/add-edit-dep/add-edit-dep.component';
-import { EmployeeComponent } from './employee/employee.component';
-import { ShowEmpComponent } from './employee/show-emp/show-emp.component';
-import { AddEditEmpComponent } from './employee/add-edit-emp/add-edit-emp.component';
+import { DepartmentComponent } from './components/department/department.component';
+import { ShowDepComponent } from './components/department/show-dep/show-dep.component';
+import { AddEditDepComponent } from './components/department/add-edit-dep/add-edit-dep.component';
+import { EmployeeComponent } from './components/employee/employee.component';
+import { ShowEmpComponent } from './components/employee/show-emp/show-emp.component';
+import { AddEditEmpComponent } from './components/employee/add-edit-emp/add-edit-emp.component';
 
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms'
 import { SharedapiService } from './services/sharedapi.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -27,6 +28,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -45,6 +50,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
@@ -57,7 +63,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatPaginatorModule,
     MatSortModule,
     MatButtonToggleModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [SharedapiService],
   bootstrap: [AppComponent]

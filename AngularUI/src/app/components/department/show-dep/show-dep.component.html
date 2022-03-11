@@ -1,44 +1,10 @@
 <!-- Button trigger modal -->
 <div fxLayout="row" fxLayoutAlign="end center">
-  <button
-    color="primary"
-    mat-flat-button
-    data-bs-toggle="modal"
-    data-bs-target="#deptModal"
-    (click)="addClick()"
-    data-backdrop="static"
-    data-keyboard="false"
-  >
+  <button color="primary" mat-flat-button (click)="addDepartment()">
     Add Department
   </button>
 </div>
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="deptModal"
-  tabindex="-1"
-  aria-labelledby="deptModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deptModalLabel">{{ ModalTitle }}</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          (click)="closeClick()"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <app-add-edit-dep [dep]="dep" *ngIf="ActivateAddEditDepComp">
-        </app-add-edit-dep>
-      </div>
-    </div>
-  </div>
-</div>
+
 <mat-form-field appearance="standard">
   <mat-label>Filter</mat-label>
   <input
@@ -70,14 +36,7 @@
     <ng-container matColumnDef="Options">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
-        <button
-          mat-icon-button
-          (click)="editClick(element)"
-          data-bs-toggle="modal"
-          data-bs-target="#deptModal"
-          data-backdrop="static"
-          data-keyboard="false"
-        >
+        <button mat-icon-button (click)="editClick(element)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button (click)="deleteClick(element)">

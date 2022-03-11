@@ -10,7 +10,7 @@ import { Department } from '../models/Department';
 export class SharedapiService {
 
   readonly APIUrl =environment.APIUrl;
-  readonly PhotoUrl="http://localhost:5000/Photos/";
+  readonly PhotoUrl="https://localhost:5000/Photos/";
   constructor(private http:HttpClient) { }
   getDepList():Observable<any[]>{
     return this.http.get<any[]>(this.APIUrl+'/Department');
