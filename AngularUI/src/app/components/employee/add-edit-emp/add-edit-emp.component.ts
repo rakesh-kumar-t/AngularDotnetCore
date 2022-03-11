@@ -27,7 +27,7 @@ export class AddEditEmpComponent implements OnInit {
       PhotoFileName: this.PhotoFileName
     })
    }
-  PhotoFileName = new FormControl(this.data[0] == null ? null : this.data[0].PhotoFileName);
+  PhotoFileName = new FormControl(this.data[0] == null ? "anonymus.png" : this.data[0].PhotoFileName);
   PhotoFilePath:string;
   addEmployeeForm: FormGroup;
   updateClicked: boolean = this.data[1];
@@ -43,7 +43,6 @@ export class AddEditEmpComponent implements OnInit {
   }
 
   loadDepartmentsList() {
-    console.log(this.updateClicked)
     this.service.getAllDepartmentNames().subscribe({
       next: (res) => {
         this.DepartmentsList = res;
@@ -83,9 +82,7 @@ export class AddEditEmpComponent implements OnInit {
   };
 
   uploadPhoto(event: any) {
-    console.log("hi")
     var file = event.target.files[0];
-    console.log(file)
     const formData:FormData=new FormData();
     formData.append('uploadedFile',file,file.name);
 

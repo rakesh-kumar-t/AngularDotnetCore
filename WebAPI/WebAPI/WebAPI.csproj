@@ -22,11 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CompanyService\CompanyService.csproj" />
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="CompanyService">
       <HintPath>refDLL\CompanyService.dll</HintPath>
     </Reference>

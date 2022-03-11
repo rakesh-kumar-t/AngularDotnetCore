@@ -1,12 +1,10 @@
 <mat-card>
   <mat-card-header>
-    <p class="lead pb-3" *ngIf="!updateClicked;else updateEmp">
+    <p class="lead pb-3" *ngIf="!updateClicked; else updateEmp">
       Add New Employee
     </p>
     <ng-template #updateEmp>
-      <p class="lead pb-3" >
-        Update Employee
-      </p>
+      <p class="lead pb-3">Update Employee</p>
     </ng-template>
   </mat-card-header>
   <mat-card-content>
@@ -16,15 +14,23 @@
           <div class="col-12 col-md-5">
             <mat-form-field appearance="outline">
               <mat-label>Employee Name</mat-label>
-                <input matInput type="text" formControlName="EmployeeName" placeholder="Employee Name"/>
+              <input
+                matInput
+                type="text"
+                formControlName="EmployeeName"
+                placeholder="Employee Name"
+              />
             </mat-form-field>
           </div>
           <div class="col-12 col-md-5">
             <mat-form-field appearance="outline">
               <mat-label>Department</mat-label>
               <mat-select formControlName="DepartmentId">
-                <mat-option *ngFor="let dept of DepartmentsList" [value]="dept.DepartmentId">
-                  {{dept.DepartmentName}}
+                <mat-option
+                  *ngFor="let dept of DepartmentsList"
+                  [value]="dept.DepartmentId"
+                >
+                  {{ dept.DepartmentName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -32,8 +38,16 @@
           <div class="col-12 col-md-5">
             <mat-form-field appearance="fill">
               <mat-label>Date of Joining</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="DateOfJoining" placeholder="Date of Joining">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="DateOfJoining"
+                placeholder="Date of Joining"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
@@ -46,14 +60,32 @@
         </div>
       </div>
 
-      <button mat-raised-button type="submit" *ngIf="!updateClicked" color="primary">
+      <button
+        mat-raised-button
+        type="submit"
+        *ngIf="!updateClicked"
+        color="primary"
+      >
         Add
       </button>
 
-      <button type="button" mat-raised-button (click)="updateEmployee(addEmployeeForm.value)" *ngIf="updateClicked" color="accent" >
+      <button
+        type="button"
+        mat-raised-button
+        (click)="updateEmployee(addEmployeeForm.value)"
+        *ngIf="updateClicked"
+        color="accent"
+      >
         Update
       </button>
-      <button type="button" mat-raised-button color="warn" (click)="CloseDialog()">Close</button>
+      <button
+        type="button"
+        mat-raised-button
+        color="warn"
+        (click)="CloseDialog()"
+      >
+        Close
+      </button>
     </form>
   </mat-card-content>
 </mat-card>
