@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="DataAccess">
       <HintPath>..\DataAccess\bin\Debug\net5.0\DataAccess.dll</HintPath>
     </Reference>
