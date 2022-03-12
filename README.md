@@ -1,13 +1,16 @@
 # Angular - .NET Core APP
 
 > Angular v13
+
 > .Net 5.0
 
 
 ### Angular app with dotnet core web api and mssql as backend (Code first approach)
 ##### Some major Components Used
 > Angular Material
+
 > Swagger UI
+
 > ngx-toastr
 
 ##### _points to note_
