@@ -63,6 +63,7 @@
       <button
         mat-raised-button
         type="submit"
+        class="mx-1"
         *ngIf="!updateClicked"
         color="primary"
       >
@@ -73,6 +74,7 @@
         type="button"
         mat-raised-button
         (click)="updateEmployee(addEmployeeForm.value)"
+        class="mx-1"
         *ngIf="updateClicked"
         color="accent"
       >
@@ -80,6 +82,7 @@
       </button>
       <button
         type="button"
+        class="mx-1"
         mat-raised-button
         color="warn"
         (click)="CloseDialog()"

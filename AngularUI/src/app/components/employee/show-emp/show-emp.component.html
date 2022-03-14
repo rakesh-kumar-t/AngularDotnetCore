@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
 <div fxLayout="row" fxLayoutAlign="end center">
-  <button mat-flat-button color="primary" (click)="addEmployee()" >
+  <button mat-flat-button color="accent" (click)="addEmployee()">
     Add Employee
   </button>
 </div>
@@ -38,7 +38,7 @@
     <ng-container matColumnDef="DateOfJoining">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>DateOfJoining</th>
       <td mat-cell *matCellDef="let row">
-        {{ row.DateOfJoining | date}}
+        {{ row.DateOfJoining | date }}
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -48,17 +48,10 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
-        <button
-          mat-icon-button
-          (click)="editEmployee(element)"
-          data-bs-toggle="modal"
-          data-bs-target="#employeeModal"
-          data-backdrop="static"
-          data-keyboard="false"
-        >
+        <button mat-icon-button (click)="editEmployee(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteEmployee(element)">
+        <button mat-icon-button color="warn" (click)="deleteEmployee(element)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

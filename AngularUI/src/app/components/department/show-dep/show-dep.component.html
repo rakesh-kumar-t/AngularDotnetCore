@@ -1,6 +1,6 @@
 <!-- Button trigger modal -->
 <div fxLayout="row" fxLayoutAlign="end center">
-  <button color="primary" mat-flat-button (click)="addDepartment()">
+  <button color="accent" mat-flat-button (click)="addDepartment()">
     Add Department
   </button>
 </div>
@@ -39,7 +39,7 @@
         <button mat-icon-button (click)="editClick(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteClick(element)">
+        <button mat-icon-button color="warn" (click)="deleteClick(element)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
