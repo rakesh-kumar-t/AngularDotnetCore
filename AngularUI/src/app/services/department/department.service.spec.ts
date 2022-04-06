@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SharedapiService } from './sharedapi.service';
+import { DepartmentService } from './department.service';
 
-describe('SharedapiService', () => {
-  let service: SharedapiService;
+describe('DepartmentService', () => {
+  let service: DepartmentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SharedapiService);
+    service = TestBed.inject(DepartmentService);
   });
 
   it('should be created', () => {

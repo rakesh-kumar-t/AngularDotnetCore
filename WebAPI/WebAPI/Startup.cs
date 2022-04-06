@@ -33,7 +33,7 @@ namespace WebAPI
             //Enable CORS
             services.AddCors(c =>
             {
-                c.AddPolicy("ApiCorsPolicy", options => options.AllowAnyOrigin().AllowAnyMethod()
+                c.AddPolicy("CompanyAPICors", options => options.AllowAnyOrigin().AllowAnyMethod()
                  .AllowAnyHeader());
             });
 
@@ -63,7 +63,7 @@ namespace WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company API v1"));
             }
-            app.UseCors("ApiCorsPolicy");
+            app.UseCors("CompanyAPICors");
 
             app.UseRouting();
 

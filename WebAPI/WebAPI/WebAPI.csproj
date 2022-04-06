@@ -23,10 +23,10 @@
 
   <ItemGroup>
     <Reference Include="CompanyService">
-      <HintPath>refDLL\CompanyService.dll</HintPath>
+      <HintPath>..\CompanyService\bin\Debug\net5.0\CompanyService.dll</HintPath>
     </Reference>
     <Reference Include="DataAccess">
-      <HintPath>refDLL\DataAccess.dll</HintPath>
+      <HintPath>..\DataAccess\bin\Debug\net5.0\DataAccess.dll</HintPath>
     </Reference>
   </ItemGroup>
 
