@@ -1,12 +1,12 @@
 on:  
   push:
     branches:
-      - main
+      - master
     tags:
       - '*'
   pull_request:
     branches:
-      - main
+      - master
 name: Angular Build
 jobs:
   angular-build:
