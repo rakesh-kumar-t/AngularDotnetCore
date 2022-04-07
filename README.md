@@ -5,6 +5,8 @@
 > .Net 5.0
 > 
 ![.NET Build](https://github.com/rakesh-kumar-t/AngularDotnetCore/actions/workflows/dotnet.yml/badge.svg)
+![Angular Build](https://github.com/rakesh-kumar-t/AngularDotnetCore/actions/workflows/angular.yml/badge.svg)
+
 
 ### Angular app with dotnet core web api and mssql as backend (Code first approach)
 ##### Some major Components Used
