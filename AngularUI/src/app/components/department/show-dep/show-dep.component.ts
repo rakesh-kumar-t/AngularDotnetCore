@@ -60,7 +60,6 @@ export class ShowDepComponent implements OnInit, AfterViewInit {
   addDepartment() {
     this.updateClicked = false;
     this.dialog.open(AddEditDepComponent, {
-      width: '60%',
       data: [this.dep, this.updateClicked],
     });
   }
@@ -68,7 +67,6 @@ export class ShowDepComponent implements OnInit, AfterViewInit {
   editClick(item: Department) {
     this.updateClicked = true;
     this.dialog.open(AddEditDepComponent, {
-      width: '60%',
       data: [item, this.updateClicked],
     });
   }

@@ -63,7 +63,6 @@ export class ShowEmpComponent implements OnInit, AfterViewInit {
   addEmployee() {
     this.updateClicked = false;
     this.dialog.open(AddEditEmpComponent, {
-      width: '60%',
       data: [null, this.updateClicked],
     });
   }
@@ -71,7 +70,6 @@ export class ShowEmpComponent implements OnInit, AfterViewInit {
   editEmployee(item: Employee) {
     this.updateClicked = true;
     this.dialog.open(AddEditEmpComponent, {
-      width: '60%',
       data: [item, this.updateClicked],
     });
   }
